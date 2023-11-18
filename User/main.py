@@ -18,7 +18,12 @@ import UI
 
 
 def input_callback(msg):
-    print(msg)
+    """
+    sending user message to main_agent
+    msg : string formated like this "hour # user name # message" 
+    """
+    arguments_list = (str(" "), msg)
+    igs.service_call("main_agent", "waitMessage", arguments_list, "")
 
 def start_UI(input_callback):
     """exection de l'interface utilisateur"""
@@ -55,4 +60,5 @@ if __name__ == "__main__":
 
     input()
 
+    # thread_UI.join() # wait for process to finish
     igs.stop()

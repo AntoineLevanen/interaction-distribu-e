@@ -10,17 +10,28 @@
 import sys
 import ingescape as igs
 
+def processMessage(message : str) -> str:
+    """
+    Take a message formated like this "hour # user name # message"
+    and reformat it to be print on the whiteboard
+    """
+    split_message = message.split("#")
+    print(split_message)
+    return str(split_message[0] + "\n" + split_message[1] + " : " + split_message[2])
+
+
 def parameter_callback(iop_type, name, value_type, value, my_data):
     pass
     # add code here if needed
 
 def service_callback(sender_agent_name, sender_agent_uuid, service_name, arguments, token, my_data):
     """
-    Doc :
+    Service called by agent to send message to whiteboard
+    arguments : list, [0]: data type, [1]: data
     """
     # check if service called is the right one
     if isinstance(arguments[0], str):
-        igs.output_set_string("user_message", arguments[1])
+        igs.output_set_string("user_message", processMessage(arguments[1]))
 
 
 if __name__ == "__main__":

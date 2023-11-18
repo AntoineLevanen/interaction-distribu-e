@@ -36,6 +36,8 @@ if __name__ == "__main__":
 
     igs.observe_input("text", input_callback, None)
 
+    igs.output_create("whiteboard_message", igs.STRING_T, None)
+
     igs.start_with_device(sys.argv[2], int(sys.argv[3]))
 
     input()
