@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar root="Sortie" version="1.0" xml:lang="fr">
+
+  <meta name="description" content="grammaire sortie"/>
+  <meta name="author" content="MDLD"/>
+
+  <rule id="Sortie" >
+    <item repeat="0-1"> excusez-moi </item>
+    <item repeat="0-1"> svp </item>
+    <item repeat="0-1"> je voudrais </item>
+    <one-of>
+      <item> sortir </item>
+      <item> raccrocher </item>
+      <item> exit </item>
+      <item> out </item>
+    </one-of>
+  </rule>
+ 
+</grammar>

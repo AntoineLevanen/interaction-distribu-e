@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- grammaire_confirmation_date_horaire.grxml -->
+
+<grammar version="1.0" root="Confirmation_Date_Horaire" xml:lang="fr" >
+
+    <meta name="description" content="grammaire de confirmation des date, demande implicite horaire"/>
+    <meta name="author" content="MDLD"/>
+    <meta name="copyright" content="free for any purpose"/>
+
+
+    <rule id = "Confirmation_Date_Horaire" scope = "public">
+		<one-of>
+			<item> 
+                <ruleref uri="#Confirmation_Horaire"/> 
+                <tag>       
+                    out.numH = rules.Confirmation_Horaire.numH;
+                    out.numM = rules.Confirmation_Horaire.numM;
+                    out.NTMN = out.numH *60 + out.numM;
+    
+    
+                    out.text = rules.Confirmation_Horaire.text;
+    
+                    out.status_date = rules.Confirmation_Horaire.status_date;
+                </tag>
+
+            </item>
+			<item> 
+                <ruleref uri="#Negation_Date"/> 
+                <tag>       
+    
+                    
+                    out.num_jour = rules.Negation_Date.num_jour ;
+                    out.nb_jour = rules.Negation_Date.nb_jour ;
+                    out.num_mois = rules.Negation_Date.num_mois ;
+                    out.nb_annee = rules.Negation_Date.nb_annee;
+    
+    
+                    out.text = rules.Negation_Date.text;
+    
+                    out.status_date = rules.Negation_Date.status_date;
+                </tag>
+            </item>
+			<item> 
+                <ruleref uri="#Negation"/> 
+            
+                <tag>       
+                    out.status_date = rules.Negation.status_date;
+                </tag>
+            </item>
+
+		</one-of>
+
+	</rule>
+
+
+    <rule id="Confirmation_Horaire" scope = "public">
+        <item repeat="0-1">            
+            <ruleref uri="grammaire_act_lang_confirmation_v2.grxml#oui"/>
+        </item>
+        <ruleref uri="grammaire_horaires.grxml#Horaire"/>
+
+        <tag>
+            out.numH = rules.Horaire.numH;
+            out.numM = rules.Horaire.numM;
+    
+            out.text = rules.Horaire.text;
+    
+            out.status_date = 0;
+        </tag>
+    </rule>
+
+    <rule id="Negation_Date" scope = "public">
+        <ruleref uri="grammaire_act_lang_confirmation_v2.grxml#non"/>
+        <ruleref uri="grammaire_dates_v3.grxml#Date"/>
+        
+        <tag>       
+            out.num_jour = rules.Date.num_jour ;
+            out.nb_jour = rules.Date.nb_jour ;
+            out.num_mois = rules.Date.num_mois ;
+            out.nb_annee = rules.Date.nb_annee;
+            
+            out.text = rules.Date.text;
+            out.status_date = 2;
+        </tag>
+
+    </rule>
+
+    <rule id="Negation" scope = "public">
+        <ruleref uri="grammaire_act_lang_confirmation_v2.grxml#non"/>
+        <tag>
+            out.status_date = 1;
+        </tag>
+    </rule>
+
+</grammar>

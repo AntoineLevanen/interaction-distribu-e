@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- fichier grammaire_horaires.grxml -->
+
+<grammar version="1.0" root="Horaire" xml:lang="fr" >
+
+    <meta name="description" content="grammaire Horaires"/>
+    <meta name="author" content="MDLD"/>
+    <meta name="copyright" content="free for any purpose"/>
+
+    <!-- grammaire Horaire => [a +] heures [+ minutes]-->
+
+    <rule id = "Horaire" scope = "public">
+        <one-of>
+            <item> 
+                <ruleref uri="#Sans_Minutes"/> 
+                <tag>            
+                    out.text = rules.latest().text;
+
+                    out.numH = rules.Sans_Minutes.numH;
+
+                    out.numM = rules.Sans_Minutes.numM;
+
+                </tag>
+            </item>
+
+            <item> 
+                <ruleref uri="#Avec_Minutes"/>
+                <tag> 
+                    out.text = rules.latest().text;
+
+                    out.spe = rules.Avec_Minutes.spe;
+
+                    out.numH = rules.latest().numH - out.spe;
+
+                    out.numM = rules.Avec_Minutes.numM;
+
+                    
+                
+                </tag>
+            </item>
+        
+        </one-of>
+        <tag>
+
+            out.NTMN = out.numH *60 + out.numM;
+
+        </tag>
+    </rule>
+
+    <!-- version avec seulement l'heure-->
+    <rule id = "Sans_Minutes">
+        <ruleref uri="#Heure"/>
+        <tag>
+            out.numH = rules.Heure.numH;
+            out.numM = 00;
+            
+            out.text = rules.Heure.text;
+
+        </tag>
+    </rule>
+
+    <!-- version avec l'heure et les minutes -->
+     <rule id = "Avec_Minutes">
+        <item>
+            <ruleref uri="#Heure"/>
+            <tag>
+                out.numH = rules.latest().numH;
+            </tag>
+        </item>
+        <item>
+            <ruleref uri="#Minutes"/>
+            <tag>
+                out.numM = rules.Minutes.numM;
+
+                out.text =  meta.current().text;
+
+                
+                out.spe = rules.Minutes.spe;
+            </tag>
+        </item>
+
+    </rule>
+
+    <rule id = "Heure" scope = "public">
+            
+        <one-of>
+            <item>
+                <ruleref uri="#num_heures"/>
+                <tag>
+                    out.numH = rules.num_heures.numH
+
+                    out.text = meta.current().text;
+                </tag>
+                <ruleref uri="#unit_heure"/>
+            </item>
+                
+            <item>
+                <ruleref uri="#special_heure"/>
+                <tag>
+                    out.numH = rules.special_heure.numH
+
+                    out.text = meta.current().text;
+                </tag>
+            </item>
+        </one-of>
+
+    </rule>
+
+        <rule id="num_heures">
+            <!-- nombre limité de 0 à 23 -->
+            <!-- out.numH = valeur numerique -->
+            <!-- out.text = concat numH en lettre pr la synthese-->
+            
+            <item> 
+                <ruleref uri="grammaire_nombre_v3.grxml#nombre"/>
+                <tag> 
+                    out.numH = rules.nombre.nb ;
+                    out.text = meta.nombre.text; 
+                </tag>
+            </item>
+
+        </rule>
+
+        <rule id="unit_heure">
+            <one-of>
+                    <item> heure </item>
+                        
+                    <item> heures </item>
+                        
+                    <item> h </item>
+                        
+            </one-of>
+            <tag>
+                out.text =  out.text +" "+ "heure"
+            </tag>
+        </rule>
+        
+        <rule id="special_heure">
+            <one-of>
+                <item> minuit <tag> out.numH = 24; out.text = "minuit"; </tag> </item>
+    
+                <item> midi <tag> out.numH = 12; out.text = "midi"; </tag> </item>
+                    
+            </one-of>
+        </rule>
+
+        <rule id = "Minutes" scope = "public">
+            <one-of>
+                <item>
+                    <ruleref uri="#num_minutes"/>
+                    <tag>
+                        out.numM = rules.num_minutes.numM;
+                        out.spe = 0;
+                    </tag>
+                    <item repeat="0-1">
+                        <ruleref uri="#unit_minutes"/>
+                    </item>
+                    <tag>
+                        
+                        out.text = out.text + meta.current().text;
+            
+                    </tag>
+    
+                </item>
+    
+                <item>
+                    <ruleref uri="#special_minutes"/>
+                    <tag>
+                        out.numM = rules.special_minutes.numM;
+                        
+                        out.spe = rules.special_minutes.spe;
+                
+                        out.text = out.text + meta.current().text;
+                    </tag>
+                </item>
+            </one-of>
+        </rule>
+    
+    
+            <rule id="num_minutes">
+                <!-- nombre limité de 0 à 59 -->
+                <!-- out.numM = valeur numerique -->
+                <!-- out.text = concat numM en lettre pr la synthese-->
+                
+    
+                <item> 
+                    <ruleref uri="grammaire_nombre_v3.grxml#nombre"/>
+                    <tag> 
+                        out.numM = rules.nombre.nb ; 
+                        out.text = out.text + meta.nombre.text + " "; 
+                    </tag>
+                </item>
+    
+            </rule>
+    
+            <rule id="unit_minutes">
+                <one-of>
+                        <item> minute </item>
+                            
+                        <item> minutes </item>
+                            
+                        <item> min </item>
+                            
+                </one-of>
+                <tag>
+                    out.text = out.text + "minutes"
+                </tag>
+            </rule>
+    
+            <rule id="special_minutes">
+                    
+                <one-of>
+                    <item> et demi <tag>out.numM = 30; out.spe = 0 </tag> </item>
+                    <item> moins la demi <tag>out.numM = 30; out.spe = 1</tag> </item>
+                        
+                    <item> et quart <tag>out.numM = 15; out.spe = 0</tag> </item>
+                    <item> moins le quart <tag>out.numM = 45; out.spe = 1</tag> </item>
+                        
+                    <item> moins cinq <tag>out.numM = 55; out.spe = 1</tag> </item>
+                        
+                    <item> moins dix <tag>out.numM = 50; out.spe = 1</tag> </item>
+    
+                    <item> moins vingt <tag>out.numM = 40; out.spe = 1</tag> </item>    
+                </one-of>
+    
+                <tag>
+                    out.text = out.text + meta.current().text
+                </tag>
+            </rule>
+
+
+        </grammar>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- fichier grammaire_lieux.grxml -->
+
+<grammar version="1.0" root="Lieu" xml:lang="fr" >
+
+    <meta name="description" content="grammaire Lieux"/>
+    <meta name="author" content="MDLD"/>
+    <meta name="copyright" content="free for any purpose"/>
+
+    <!-- grammaire Lieu => -->
+
+    <rule id = "Lieu" scope = "public">
+        <one-of>
+            <item> mer </item>
+            <item> montagne </item>
+            <item> ocean </item>
+            <item> foret </item>
+            <item> grotte </item>
+        </one-of>
+
+        <tag>
+
+            out.text = meta.current().text;
+
+        </tag>
+    </rule>
+
+   
+</grammar>

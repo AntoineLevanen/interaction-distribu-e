@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- fichier grammaire_minutes.grxml -->
+<!-- minutes => [ num_minutes + unitM ] | [ minutes_special ]-->
+<grammar version="1.0" root="Duree" xml:lang="fr" >
+
+    <meta name="description" content="grammaire duree"/>
+    <meta name="author" content="MDLD"/>
+    <meta name="copyright" content="free for any purpose"/>
+
+    <rule id = "Duree" scope = "public">
+        
+        <one-of>
+            <item>
+                <ruleref uri="#heure"/>
+            </item>
+        </one-of>
+        <tag>
+            out.numH = rules.heure.numH;
+
+            out.text = rules.heure.text;
+
+        </tag>
+    </rule>
+
+
+    <rule id="heure">
+        <!-- nombre limité de 0 à 59 -->
+        <!-- out.numH = valeur numerique -->
+        <!-- out.text = concat numH en lettre pr la synthese-->
+        
+
+        <item> 
+            <ruleref uri="grammaire_nombre_v3.grxml#nombre"/>
+            <item repeat="0-1"> 
+                <ruleref uri="#unitH"/> 
+            </item>
+
+            <tag> 
+                out.numH = rules.nombre.nb ; 
+                out.text = rules.nombre.text + " heure(s)"; 
+            </tag>
+        </item>
+</rule>
+
+<rule id = "unitH">
+    <one-of>
+        <item> heure </item>
+            
+        <item> heures </item>
+            
+        <item> h </item>       
+    </one-of>
+</rule>
+    
+
+</grammar>

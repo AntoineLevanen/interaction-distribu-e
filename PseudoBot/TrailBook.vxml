@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ATTENTION : UTF-8 = PAS DE CARACTERES ACCENTUES -->
+<!-- si PB message : Invalid UTF-8 character --> 
+
+<vxml version="2.0" xmlns="http://www.w3.org/2001/vxml">
+
+	<meta name="description" content="préparation trail 0"/>
+	<meta name="author" content="MDLD"/>
+
+	
+
+	<!-- dialogue de demande d'information -->
+
+<form id="trail">
+
+	<link event="help">
+		<grammar src="grammaire_aide.grxml" type="application/srgs+xml" />
+	</link>
+
+	<link event="exit">
+		<grammar src="grammaire_sortie.grxml" type="application/srgs+xml" />
+	</link>
+	
+	
+
+
+		<!-- initialisation des variables internes au formulaire -->
+		<var name="reponse" />
+
+		<var name="organisateur" />
+
+		<var name="date_trail" />
+
+		<var name="horaire_trail" />
+
+		<var name="duree_trail" />
+		
+		<var name="lieu_trail" />
+
+		<var name="difficulte_trail" />
+		
+		<var name="prix_trail" />
+
+
+
+		<catch event="exit">	 
+			<prompt>Vous quittez l'application </prompt>
+			<exit/>
+		</catch>
+
+		<block>
+			Bienvenue sur le service de création de randonnee !!! 
+		</block>
+
+
+
+			<!-- Champ/Slot de date de réservation  -->
+			<field name="date_trail">
+				<prompt> A quelle date partons nous ? ? </prompt>
+	
+				<!-- Appel a une grammaire externe -->
+				<grammar src="grammaire_dates_v3.grxml" type="application/srgs+xml" />
+	
+				<!-- Gestion des erreurs -->
+				<help> Repondes par une date : jour mois [+ annee] </help>
+				<noinput> Je n'ai pas entendu. Peux-tu repeter ? </noinput>
+				<nomatch> Je n'ai pas compris. Peux-tu repondre par une date : jour mois [+ annee] </nomatch>
+
+	
+				<filled>
+					<if cond="date_trail.nb_jour &lt; 31">
+						La date de sortie est le <value expr = "date_trail.text"/>
+						
+						<else/>
+							Votre numero de jour doit etre realiste
+							<clear namelist="date_trail" />
+					</if>
+				</filled>
+	
+			</field>
+	
+			<!-- Champ/Slot de confirmation de date et de demande d'horaire  -->
+			<field name="date_trail_confirmation_horaire">
+				<prompt> On part le <value expr="date_trail.text"/>. Le départ est prevu a quelle heure ? </prompt>
+	
+				<!-- Appel a une grammaire externe -->
+				<grammar src="grammaire_confirmation_date_horaire.grxml" type="application/srgs+xml" />
+	
+				<!-- Gestion des erreurs -->
+				<help> Repondez par non et une nouvelle date, ou oui et l'heure de départ </help>
+				<noinput> Je n'ai pas entendu. Poux-vous repeter ? </noinput>
+				<nomatch> Je ne vous ai pas compris. Peux-tu repondre par  non et une nouvelle date, ou oui et/ou l'heure de départ </nomatch>
+
+	
+				<!-- Comportement du systeme apres confirmation/infirmation --> 
+				<!-- OK ==> On sort ou on passe a une autre sous-tache -->
+				<!-- NOK ==> On efface tout et on recommence --> 
+	
+				<filled>
+					<if cond = "date_trail_confirmation_horaire.status_date == 0">
+						<if cond="date_trail_confirmation_horaire.numH &lt; 23 &amp;&amp;date_trail_confirmation_horaire.numM &lt; 59">
+							
+							
+							
+							
+
+		
+							<else/>
+								Votre horaire doit etre realiste <value expr="date_trail_confirmation_horaire.numH" />
+								<clear namelist="date_trail_confirmation_horaire" />
+
+
+						</if>
+					</if>
+
+					<if cond ="date_trail_confirmation_horaire.status_date == 2">
+						
+						La reservation change pour le <value expr = "date_trail_confirmation_horaire.text"/>
+
+						<assign name = "date_trail.nb_jour" expr = "date_trail_confirmation_horaire.nb_jour"/>
+						<assign name = "date_trail.num_jour" expr = "date_trail_confirmation_horaire.num_jour"/>
+						<assign name = "date_trail.num_mois" expr = "date_trail_confirmation_horaire.num_mois"/>
+						<assign name = "date_trail.nb_annee" expr = "date_trail_confirmation_horaire.nb_annee"/>
+						<assign name = "date_trail.text" expr = "date_trail_confirmation_horaire.text"/>
+
+						
+						
+						La reservation change pour le <value expr = "date_trail.text"/>
+
+						<clear namelist="date_trail_confirmation_horaire"/>
+
+					</if>
+
+					
+					<if cond ="date_trail_confirmation_horaire.status_date == 1">
+						Whoopsies Daisies
+						<clear namelist="date_trail date_trail_confirmation_horaire" />
+					</if>
+
+					
+					
+				</filled>
+	
+			</field>
+
+
+
+		<!-- Champ/Slot de la durée de réservation  -->
+		<field name="duree_trail">
+			<prompt> Combien de temps la randonnee durera ? </prompt>
+
+			<!-- Appel a une grammaire externe -->
+			<grammar src="grammaire_duree.grxml" type="application/srgs+xml" />
+
+			<!-- Gestion des erreurs -->
+			<help> Repondez par une duree en heures </help>
+			<noinput> Je n'ai pas entendu. Pouvez-vous repeter ? </noinput>
+			<nomatch> Je ne vous ai pas compris. Pouvez-vous repondre par une duree : heures  </nomatch>
+
+
+		</field>
+
+
+
+
+		
+		<!-- Champ/Slot de l'endroit de réservation  -->
+		<field name="lieu_trail">
+			<prompt> ou partons nous ? </prompt>
+
+			<!-- Appel a une grammaire externe -->
+			<grammar src="grammaire_lieux.grxml" type="application/srgs+xml" />
+
+			<!-- Gestion des erreurs -->
+			<help> Repondez par un lieu </help>
+			<noinput> Je n'ai pas entendu. Pouvez-vous repeter ? </noinput>
+			<nomatch> Je ne vous ai pas compris. Pouvez-vous repondre par un lieu : mer, montagne, ocean, foret  </nomatch>
+
+			<filled>
+
+				<value expr = "lieu_trail.text"/>nous voila
+
+			</filled>
+		
+		</field>
+
+
+
+
+
+
+		<!-- Champ/Slot du niveau de la sortie  -->
+		<field name="niveau_trail">
+			<prompt> Quel est le niveau de la rando ? </prompt>
+
+			<!-- Appel a une grammaire externe -->
+			<grammar src="grammaire_nombre_v3.grxml" type="application/srgs+xml" />
+
+			<!-- Gestion des erreurs -->
+			<help> Repondez par un niveau </help>
+			<noinput> Je n'ai pas entendu. Pouvez-vous repeter ? </noinput>
+			<nomatch> Je ne vous ai pas compris. Pouvez-vous repondre par un niveau : 1 : debutant, 2 : intermediare, 3 : aguerri  </nomatch>
+
+			<filled>
+
+				Cette randonnee convient au niveau <value expr = "niveau_trail.text"/>
+
+
+				<if cond="niveau_trail.nb &gt; 1">
+					<if cond="niveau_trail.nb &lt; 3">
+						
+					Cette randonnee convient au niveau <value expr = "niveau_trail.text"/>
+					
+
+
+					<else/>
+					Votre niveau doit suivre cette echelle : 1 : debutant, 2 : intermediare, 3 : aguerri 
+					<clear namelist="niveau_trail" />
+
+					</if>
+				</if>
+
+			</filled>
+		
+		</field>
+
+
+
+
+
+	</form>
+
+
+
+
+
+
+
+
+
+
+
+
+</vxml>
+	
