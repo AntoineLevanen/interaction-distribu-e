@@ -150,6 +150,8 @@ def getElements_callback(agent, sender_agent_name, sender_agent_uuid, service_na
     agent_object.getElements(sender_agent_name, sender_agent_uuid)
 
 
+
+
 class Whiteboard(igs.Agent):
     def __init__(self, activated = True):
         super().__init__("Whiteboard", activated)
@@ -202,6 +204,9 @@ class Whiteboard(igs.Agent):
         self.service_arg_add("addText", "x", igs.DOUBLE_T)
         self.service_arg_add("addText", "y", igs.DOUBLE_T)
         self.service_arg_add("addText", "color", igs.STRING_T)
+
+        self.service_init("set_background", addText_callback, self)
+        self.service_arg_add("set_background", "tuple_rgb", igs.STRING_T)
 
         self.service_init("addImage", addImage_callback, self)
         self.service_arg_add("addImage", "base64", igs.DATA_T)
@@ -327,7 +332,5 @@ class Whiteboard(igs.Agent):
     def getElements(self, sender_agent_name, sender_agent_uuid):
         pass
         # add code here if needed
-
-
 
 
