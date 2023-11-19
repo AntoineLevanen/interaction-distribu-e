@@ -33,6 +33,8 @@ def service_callback(sender_agent_name, sender_agent_uuid, service_name, argumen
     if isinstance(arguments[0], str):
         igs.output_set_string("user_message", processMessage(arguments[1]))
 
+    image = "https://www.francebleu.fr/s3/cruiser-production/2022/01/a71beb0d-28ce-4ae9-b7cf-b052c9f5e8b6/400x400_dsc05705.jpg"
+    igs.service_call("Whiteboard", "addImageFromUrl", (image, 200, 200), "")
 
 if __name__ == "__main__":
     if len(sys.argv) < 4:
