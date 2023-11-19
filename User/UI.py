@@ -59,10 +59,10 @@ class UserWindow(QMainWindow):
 
 
         self.add_img_btn = QtWidgets.QPushButton(self)
-        self.add_img_btn.setText("+ URL image")
+        self.add_img_btn.setText("+ image")
         self.add_img_btn.setGeometry(5, 305, 100, 30)
-        self.add_img_btn.setStyleSheet("QPushButton {background-color: rgb(24, 46, 146); color: rgb(255, 255, 255);font-weight: bold; "
-            "border-radius: 5} QPushButton:pressed {background-color: lightblue;}")
+        self.add_img_btn.setStyleSheet("QPushButton {background-color: rgb(211, 211, 211); color: rgb(0, 0, 0);font-weight: bold; "
+            "border-radius: 15} QPushButton:pressed {background-color: lightblue;}")
         self.add_img_btn.clicked.connect(self.send_img)
 
         self.add_img_field = QtWidgets.QLineEdit(self)
@@ -74,15 +74,15 @@ class UserWindow(QMainWindow):
         self.btn_add_note = QtWidgets.QPushButton(self)
         self.btn_add_note.setText("+ note")
         self.btn_add_note.setGeometry(5, 340, 100, 30)
-        self.btn_add_note.setStyleSheet("QPushButton {background-color: rgb(24, 46, 146); color: rgb(255, 255, 255);font-weight: bold; "
-            "border-radius: 5} QPushButton:pressed {background-color: lightblue;}")
+        self.btn_add_note.setStyleSheet("QPushButton {background-color: rgb(211, 211, 211); color: rgb(0, 0, 0);font-weight: bold; "
+            "border-radius: 15} QPushButton:pressed {background-color: lightblue;}")
         self.btn_add_note.clicked.connect(self.send_note)
 
         self.add_note_field = QtWidgets.QTextEdit(self)
         self.add_note_field.setPlaceholderText("Ajoutez une note ici...")
-        self.add_note_field.setGeometry(110, 340, 285, 90)
+        self.add_note_field.setGeometry(110, 340, 285, 120)
         self.add_note_field.setStyleSheet(
-            "color: rgb(255,255,255); background-color: rgb(36, 102, 77); border-radius:5px; font-weight:bold;")
+            "color: rgb(255,255,255); background-color: rgb(67, 68, 83); border-radius:5px; font-weight:bold;")
 
         """Bouton d'envoi du message"""
         self.btn_envoi = QtWidgets.QPushButton(self)
