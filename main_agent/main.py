@@ -15,8 +15,9 @@ def processMessage(message : str) -> str:
     Take a message formated like this "hour # user name # message"
     and reformat it to be print on the whiteboard
     """
+    # print(message)
     split_message = message.split("#")
-    print(split_message)
+    # print(split_message)
     return str(split_message[0] + "\n" + split_message[1] + " : " + split_message[2])
 
 
@@ -30,11 +31,27 @@ def service_callback(sender_agent_name, sender_agent_uuid, service_name, argumen
     arguments : list, [0]: data type, [1]: data
     """
     # check if service called is the right one
-    if isinstance(arguments[0], str):
+
+    print("argument list : ", arguments)
+
+    if arguments[0] == '0': # add a user message
+        print("send a message")
         igs.output_set_string("user_message", processMessage(arguments[1]))
 
+<<<<<<< HEAD
     image = "https://www.francebleu.fr/s3/cruiser-production/2022/01/a71beb0d-28ce-4ae9-b7cf-b052c9f5e8b6/400x400_dsc05705.jpg"
     igs.service_call("Whiteboard", "addImageFromUrl", (image, 200, 200), "")
+=======
+    elif arguments[0] == '1': # add an image on the white board
+        # print("display an image")
+        image = str(arguments[1])
+        igs.service_call("Whiteboard", "addImageFromUrl", (image, 250, 250), "")
+
+    elif arguments[0] == '2': # add a note on the whiteboard
+        # print("display a text note")
+        igs.service_call("Whiteboard", "addText", (str(arguments[1]), 100, 150, "blue"), "")
+
+>>>>>>> 17bb0eda9ebff6d1a64db61cc217e1384a00bad9
 
 if __name__ == "__main__":
     if len(sys.argv) < 4:

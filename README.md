@@ -1,2 +1,2 @@
-# interaction-distribu-e
+# interaction-distribuee
 TP 3A UPSSITECH 
