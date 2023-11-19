@@ -12,6 +12,7 @@ import threading
 import ingescape as igs
 import qtmodern
 from PyQt5.QtWidgets import QApplication
+from PyQt5.QtCore import Qt
 from qtmodern import styles
 
 import UI
@@ -48,6 +49,7 @@ if __name__ == "__main__":
     # Nouveau thread pour démarrer l'interface graphique de l'agent sans bloquer le déroulement du main 
     thread_UI = threading.Thread(target=start_UI, args=(input_callback,))
     thread_UI.start()
+
 
     igs.agent_set_name(sys.argv[1])
     igs.definition_set_version("1.0")
