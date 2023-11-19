@@ -82,9 +82,3 @@ if __name__ == "__main__":
     input()
 
     igs.stop()
-
-
-    input()
-
-    igs.stop()
-
