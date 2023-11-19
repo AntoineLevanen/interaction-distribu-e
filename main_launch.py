@@ -1,56 +1,37 @@
 import os
+import sys, getopt
 import threading
-import subprocess
+import argparse
 
-def taskOne():
-    # os.system("sh /opt/Ingescape-Circle/Ingescape-Circle.sh")
-<<<<<<< HEAD:main_launch.py
-    subprocess.run(['sh /opt/Ingescape-Circle/Ingescape-Circle.sh'])
-def taskTwo():
-    os.system("sh /opt/Whiteboard/Whiteboard.sh --port 5670")
-
-=======
-    # subprocess.run(['sh /opt/Ingescape-Circle/Ingescape-Circle.sh'])
-    pass
-
-def taskTwo():
-    # os.system("sh /opt/Whiteboard/Whiteboard.sh --port 5671")
-    pass
->>>>>>> 17bb0eda9ebff6d1a64db61cc217e1384a00bad9:main.py
-def taskThree():
-    os.system("python main_agent/main.py main_agent Wi-Fi 5670")
+def taskOne(python_i, device, port):
+    os.system(f"{python_i} main_agent/main.py main_agent {device} {port}")
     
-def taskFour():
-    os.system("python User/main.py User Wi-Fi 5670")
+def taskTwo(python_i, device, port):
+    os.system(f"{python_i} User/main.py User {device} {port}")
 
 
 if __name__ == "__main__":
+    
 
-<<<<<<< HEAD:main_launch.py
-    #thread_01 = threading.Thread(target=taskOne)
-    # thread_01.start()
+    try:
+        python = sys.argv[1]
+        device = sys.argv[2]
+        port = sys.argv[3]
+    except:
+        print("Help : add your python exe file path, your wi-fi device and the choose port")
+        print("example : python3 main.launch.py python3 wlo1 5670")
+        sys.exit(1)
 
-    #thread_02 = threading.Thread(target=taskTwo)
-=======
-    # thread_01 = threading.Thread(target=taskOne)
-    # thread_01.start()
 
-    # thread_02 = threading.Thread(target=taskTwo)
->>>>>>> 17bb0eda9ebff6d1a64db61cc217e1384a00bad9:main.py
-    # thread_02.start()
+    
 
-    thread_03 = threading.Thread(target=taskThree)
-    thread_03.start()
+    
 
-    thread_04 = threading.Thread(target=taskFour)
-    thread_04.start()
+    thread_01 = threading.Thread(target=taskOne, args=(python, device, port))
+    thread_01.start()
 
-<<<<<<< HEAD:main_launch.py
-    #thread_01.join()
-    #thread_02.join()
-=======
-    # thread_01.join()
-    # thread_02.join()
->>>>>>> 17bb0eda9ebff6d1a64db61cc217e1384a00bad9:main.py
-    thread_03.join()
-    thread_04.join()  
+    thread_02 = threading.Thread(target=taskTwo, args=(python, device, port))
+    thread_02.start()
+
+    thread_01.join()
+    thread_02.join()  
