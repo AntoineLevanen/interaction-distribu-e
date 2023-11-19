@@ -27,13 +27,13 @@ def input_callback(msg):
 
 def start_UI(input_callback):
     """exection de l'interface utilisateur"""
-    app = QApplication(sys.argv)  # nouvelle application PyQt5
-    styles.dark(app)  # thème sombre de l'interface user
-    window = UI.UserWindow(callback=input_callback)  # instance de UI User window définie dans le fichier associé
-    qtmodern.styles.dark(app)  # Style 'Modern' sur l'interface
+    app = QApplication(sys.argv)                            # nouvelle application PyQt5
+    styles.dark(app)                                        # thème sombre de l'interface user
+    window = UI.UserWindow(callback=input_callback)         # instance de UI User window définie dans le fichier associé
+    qtmodern.styles.dark(app)                               # Style 'Modern' sur l'interface
     mw = qtmodern.windows.ModernWindow(window)
-    mw.show()  # affichage de l'application
-    app.exec_()  # gestion de l'executuion et de la fermeture...
+    mw.show()                                               # affichage de l'application
+    app.exec_()                                             # gestion de l'executuion et de la fermeture...
     app.exit()
 
 if __name__ == "__main__":
@@ -45,7 +45,7 @@ if __name__ == "__main__":
             print(f" {device}")
         exit(0)
 
-
+    # Nouveau thread pour démarrer l'interface graphique de l'agent sans bloquer le déroulement du main 
     thread_UI = threading.Thread(target=start_UI, args=(input_callback,))
     thread_UI.start()
 
