@@ -6,10 +6,12 @@ import subprocess
 
 def taskOne():
     # os.system("sh /opt/Ingescape-Circle/Ingescape-Circle.sh")
-    subprocess.run(['sh /opt/Ingescape-Circle/Ingescape-Circle.sh'])
+    # subprocess.run(['sh /opt/Ingescape-Circle/Ingescape-Circle.sh'])
+    pass
 
 def taskTwo():
-    os.system("sh /opt/Whiteboard/Whiteboard.sh --port 5671")
+    # os.system("sh /opt/Whiteboard/Whiteboard.sh --port 5671")
+    pass
 def taskThree():
     os.system("python3 main_agent/main.py main_agent wlo1 5671")
 def taskFour():
@@ -18,10 +20,10 @@ def taskFour():
 
 if __name__ == "__main__":
 
-    thread_01 = threading.Thread(target=taskOne)
+    # thread_01 = threading.Thread(target=taskOne)
     # thread_01.start()
 
-    thread_02 = threading.Thread(target=taskTwo)
+    # thread_02 = threading.Thread(target=taskTwo)
     # thread_02.start()
 
     thread_03 = threading.Thread(target=taskThree)
@@ -30,7 +32,7 @@ if __name__ == "__main__":
     thread_04 = threading.Thread(target=taskFour)
     thread_04.start()
 
-    thread_01.join()
-    thread_02.join()
+    # thread_01.join()
+    # thread_02.join()
     thread_03.join()
     thread_04.join()  

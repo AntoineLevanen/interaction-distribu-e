@@ -17,10 +17,10 @@ path_logo = "Images_UI/upssitech.png"
 
 class UserWindow(QMainWindow):
     """///////////////////////////// Fenêtre principale pour l'utilisateur ///////////////////////////////////"""
-    def __init__(self, callback=None):
+    def __init__(self, callback_message=None):
         super().__init__()
 
-        self.callback = callback
+        self.callback_message = callback_message
 
         self.setFixedSize(400, 510)
 
@@ -89,7 +89,7 @@ class UserWindow(QMainWindow):
         self.btn_envoi.setText("Envoyer")
         self.btn_envoi.setGeometry(5, 465, 390, 30)
         self.btn_envoi.setStyleSheet("font-weight:bold; color: rgb(255,255,255); background-color: rgb(17, 184, 0); border-radius: 15px")
-        self.btn_envoi.clicked.connect(self.send_note)
+        self.btn_envoi.clicked.connect(self.send_msg)
 
 
     def send_msg(self):
@@ -105,14 +105,16 @@ class UserWindow(QMainWindow):
             note = self.add_note_field.toPlainText()
 
             # Appeler la fonction de rappel avec le message en paramètre
-            if self.callback:
-                self.callback(str(t)+'#'+str(pseudo)+'#'+str(msg))
+            if self.callback_message:
+                self.callback_message('0', str(t)+'#'+str(pseudo)+'#'+str(msg))
 
 
     def send_img(self):
         str_url = str(self.add_img_field.text())
-        pass
+        if self.callback_message:
+            self.callback_message('1', str_url)
 
     def send_note(self):
         str_note = str(self.add_note_field.toPlainText())
-        pass
+        if self.callback_message:
+            self.callback_message('2', str_note)
