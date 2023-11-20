@@ -11,6 +11,7 @@ import sys
 import ingescape as igs
 
 def process_information(message:str) : #"hour # user name # message"
+    print("message reçu : ", message)    
     hour,user, msg = message.split("#")
 
 #inputs
