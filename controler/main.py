@@ -12,11 +12,12 @@ import ingescape as igs
 
 def process_information(message:str) : #"hour # user name # message"
     print("message reçu : ", message)    
-    hour,user, msg = message.split("#")
+    return message.split("#")
+    
 
 #inputs
 def input_callback(iop_type, name, value_type, value, my_data):
-    hour,user,msg = process_information(value[1])
+    hour,user,msg = process_information(value)
     
     #première sortie -> pour aller au whiteboard 
     igs.output_set_string("processed_str", user+ " à "+ hour + " : "+msg)
