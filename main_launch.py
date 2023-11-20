@@ -9,6 +9,12 @@ def taskOne(python_i, device, port):
 def taskTwo(python_i, device, port):
     os.system(f"{python_i} User/main.py User {device} {port}")
 
+def taskThree(python_i, device, port):
+    os.system(f"{python_i} controler/main.py Controler {device} {port}")
+
+def taskFour(python_i, device, port):
+    os.system(f"{python_i} chatbot/main.py chatbot {device} {port}")
+
 
 if __name__ == "__main__":
     
@@ -25,6 +31,14 @@ if __name__ == "__main__":
     thread_01 = threading.Thread(target=taskOne, args=(python, device, port))
     thread_01.start()
 
+    # launch the main_agent in a thread
+    thread_03 = threading.Thread(target=taskThree, args=(python, device, port))
+    thread_03.start()
+
+    # launch the main_agent in a thread
+    thread_04 = threading.Thread(target=taskFour, args=(python, device, port))
+    thread_04.start()
+
 
     # launch 1 or more User agents in separated thread
     try:
@@ -37,3 +51,5 @@ if __name__ == "__main__":
 
     thread_01.join()
     thread_02.join()  
+    thread_03.join()  
+    thread_04.join()  
