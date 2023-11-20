@@ -1,13 +1,6 @@
 # interaction-distribuee
 # TP 3A UPSSITECH 
 
-## Sommaire
-[Pré-requis](#Pré-requis)<br />
-[Mise en place de l’environnement du projet](#Miseenplacedel’environnementduprojet)<br />
-[Scenario d'utilisation](#Scenariod'utilisation)<br />
-[Utilisateur](###Utilisateur)<br />
-[Chatbot](###Chatbot)<br />
-
 ## Pré-requis
 
 Pour utiliser ce projet les bibliothèques python suivantes sont nécessaires :
