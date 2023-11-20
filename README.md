@@ -87,5 +87,5 @@ L'interface `user` de l'utilisateur *User_01* :
 ![My Image5](images/scenario_01_User.png)
 
 Et enfin Ingescape-Circle avec les agents :
-![My Image6](images/scenario_01_Circle.png)
+![My Image6](images/main_agentwhiteboard.png)
 
