@@ -117,25 +117,34 @@ def confirmer_participation(user):
     confirmee = user in participants
     
     if confirmee :
-        queue_sorties.put("vous êtes déjà confirmé")
+        msg_output = "vous êtes déjà confirmé"
+        queue_sorties.put(msg_output)
     
     else :
         stocker_informations("participants", user)
-        queue_sorties.put("participation confirmée")
+        msg_output = "participation confirmée"
+        queue_sorties.put(msg_output)
+    
+    print(msg_output)
 
 #a faire ?
 def open_photos() :
     print("")
 
-def chatbot_principal(queue_entrees, queue_sorties):
+def chatbot_principal():
     ##récupérer 
     
     while True:
         msg = queue_entrees.get()
-        utilisateur_conn,utilisateur_input = msg.split("#")
+        print("msg : ",msg)
+        
+        try : 
+            utilisateur_conn,utilisateur_input = msg.split("#")
+            
+        except :
+            utilisateur_input = ""
 
-
-        if utilisateur_input.lower() == 'exit' or utilisateur_input.lower() == 'quitter':
+        if 'exit' in utilisateur_input or 'quitter' in utilisateur_input:
             queue_sorties.put("Au revoir !")
             break
         else:
@@ -153,7 +162,11 @@ def chatbot_principal(queue_entrees, queue_sorties):
             match9 = re.match(r'participer', utilisateur_input)
 
             if match1 or match2:
-                info = match2.group(1)
+                if match2 != None :
+                    info = match2.group(1)
+                else :
+                    info = match1.group(1)
+
                 hist = False
                 if "historique" in info:
                     info = info.split(" ")[1]
@@ -176,15 +189,17 @@ def chatbot_principal(queue_entrees, queue_sorties):
                 confirmer_participation(utilisateur_conn)
             else:
                 response = chatbot.respond(utilisateur_input)
-                queue_sorties.put(response)
+                queue_sorties.put("Bob comprend pas :(")
                 
 
 def get_output():
     while not stop_flag.is_set() : 
         if not queue_sorties.empty():
             output = queue_sorties.get()
-            igs.output_set_string("answer",output)
-            if output == "Au revoir !" :
+            if output != "" :
+                igs.output_set_string("answer",output)
+                #print(output)
+            elif output == "Au revoir !" :
                 chatbot == False
                 output_thread_running = False
                 stop_flag.set()
@@ -192,24 +207,37 @@ def get_output():
                 
 #inputs
 def input_callback(iop_type, name, value_type, value, my_data):
-    ### value = user#msg
-    queue_entrees.put(value)
-    
+
+    if "Bob" in value :
+        print(value)
+        ### value = user#msg
+        try :
+            user, msg = value.split("#")
+            msg_fonc = msg.split("Bob, ")
+            
+            print(user)
+            
+            msg = user+"#"+msg_fonc[1]
+            if msg != "":
+                print(msg)
+                queue_entrees.put(msg)
+        except : 
+            pass
+
 
 if __name__ == "__main__":
     
     # Créer la thread pour le traitement asynchrone des entrées
     ##il faut lancer le thread une seul fois - variable globale pour dire si c'est lancé ou pas
     if not chatbot_running :
-        thread_entrees = threading.Thread(target=chatbot_principal, args=(queue_entrees, queue_sorties), daemon=True)
+        print("init chatbot")
+        thread_entrees = threading.Thread(target=chatbot_principal, daemon=True)
         thread_entrees.start()
-        thread_entrees.join()
 
     if not output_thread_running :
-        thread_outputs = threading.Thread(target=get_output, args=(queue_sorties,), daemon=True)
+        print("init output")
+        thread_outputs = threading.Thread(target=get_output, daemon=True)
         thread_outputs.start()
-        thread_outputs.join()
-
     
     if len(sys.argv) < 4:
         print("usage: python3 main.py agent_name network_device port")
@@ -234,6 +262,10 @@ if __name__ == "__main__":
     igs.start_with_device(sys.argv[2], int(sys.argv[3]))
 
     input()
+    
+    if chatbot_running :
+        thread_entrees.join()
+        thread_outputs.join()
 
     igs.stop()
 
