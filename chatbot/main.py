@@ -183,11 +183,12 @@ def get_output():
     while not stop_flag.is_set() : 
         if not queue_sorties.empty():
             output = queue_sorties.get()
-            print(output)
+            igs.output_set_string("answer",output)
             if output == "Au revoir !" :
                 chatbot == False
                 output_thread_running = False
                 stop_flag.set()
+                
                 
 #inputs
 def input_callback(iop_type, name, value_type, value, my_data):

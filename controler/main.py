@@ -15,7 +15,7 @@ def process_information(message:str) : #"hour # user name # message"
 
 #inputs
 def input_callback(iop_type, name, value_type, value, my_data):
-    hour,user,msg = process_information(value)
+    hour,user,msg = process_information(value[1])
     
     #première sortie -> pour aller au whiteboard 
     igs.output_set_string("processed_str", user+ " à "+ hour + " : "+msg)
