@@ -19,7 +19,7 @@ def processMessage(message : str) -> str:
     split_message = message.split("#")
     # print(split_message)
     return str(split_message[0] + "\n" + split_message[1] + " : " + split_message[2])"""
-    return message[1]
+    return message
 
 
 def parameter_callback(iop_type, name, value_type, value, my_data):
