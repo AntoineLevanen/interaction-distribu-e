@@ -14,11 +14,12 @@ def processMessage(message : str) -> str:
     """
     Take a message formated like this "hour # user name # message"
     and reformat it to be print on the whiteboard
-    """
+
     # print(message)
     split_message = message.split("#")
     # print(split_message)
-    return str(split_message[0] + "\n" + split_message[1] + " : " + split_message[2])
+    return str(split_message[0] + "\n" + split_message[1] + " : " + split_message[2])"""
+    return message
 
 
 def parameter_callback(iop_type, name, value_type, value, my_data):
