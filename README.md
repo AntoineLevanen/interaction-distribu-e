@@ -1,6 +1,13 @@
 # interaction-distribuee
 # TP 3A UPSSITECH 
 
+## Sommaire
+[Pré-requis](#Pré-requis)<br />
+[Mise en place de l’environnement du projet](#Miseenplacedel’environnementduprojet)<br />
+[Scenario d'utilisation](#Scenariod'utilisation)<br />
+[Utilisateur](###Utilisateur)<br />
+[Chatbot](###Chatbot)<br />
+
 ## Pré-requis
 
 Pour utiliser ce projet les bibliothèques python suivantes sont nécessaires :
@@ -78,13 +85,17 @@ Pour Windows
     Donc `python3 main_launch.py python3 wlo1 5670 3` lance l'agent main et deux agent `user`.
 
 ## Scenario d'utilisation
-
+### Utilisateur
 Deux utilisateurs utilise le Whiteboard pour communiquer et partager des images et des notes.
 
 ![My Image4](images/scenario_01.png)
 
 L'interface `user` de l'utilisateur *User_01* :
 ![My Image5](images/scenario_01_User.png)
+
+### Chatbot
+Pour communiquer avec le chatbot : Utilisez la syntaxe "Bob, [votre message]" pour dialoguer avec le chatbot. `Exemple : "Bob, Je veux consulter l'horaire"`.  
+Les réponses du chatbot seront affichées dans le chat du whiteboard.
 
 Et enfin Ingescape-Circle avec les agents :
 ![My Image6](images/main_agentwhiteboard.png)
